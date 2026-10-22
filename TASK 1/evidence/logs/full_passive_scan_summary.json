@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "target_host": "testfire.net",
+    "target_ip": "65.61.137.117",
+    "scan_timestamp": "2026-10-21 17:58:43",
+    "scope": "Read-Only Passive Security Assessment"
+  },
+  "open_ports": [
+    {
+      "port": 25,
+      "service": "SMTP",
+      "status": "OPEN"
+    },
+    {
+      "port": 80,
+      "service": "HTTP",
+      "status": "OPEN"
+    },
+    {
+      "port": 110,
+      "service": "POP3",
+      "status": "OPEN"
+    },
+    {
+      "port": 143,
+      "service": "IMAP",
+      "status": "OPEN"
+    },
+    {
+      "port": 443,
+      "service": "HTTPS",
+      "status": "OPEN"
+    },
+    {
+      "port": 8080,
+      "service": "HTTP-Proxy/Alt",
+      "status": "OPEN"
+    }
+  ],
+  "closed_ports": [
+    {
+      "port": 21,
+      "service": "FTP",
+      "status": "CLOSED/FILTERED"
+    },
+    {
+      "port": 22,
+      "service": "SSH",
+      "status": "CLOSED/FILTERED"
+    },
+    {
+      "port": 53,
+      "service": "DNS",
+      "status": "CLOSED/FILTERED"
+    },
+    {
+      "port": 8443,
+      "service": "HTTPS-Alt",
+      "status": "CLOSED/FILTERED"
+    },
+    {
+      "port": 3306,
+      "service": "MySQL",
+      "status": "CLOSED/FILTERED"
+    }
+  ],
+  "raw_headers": {
+    "Server": "Apache-Coyote/1.1",
+    "Set-Cookie": "JSESSIONID=AE649DDB02B970B45FED887074FE1B55; Path=/; HttpOnly",
+    "Content-Type": "text/html;charset=ISO-8859-1",
+    "Transfer-Encoding": "chunked",
+    "Date": "Wed, 21 Oct 2026 12:28:57 GMT",
+    "Connection": "close"
+  },
+  "header_audit": {
+    "Strict-Transport-Security": {
+      "status": "MISSING",
+      "severity": "Medium",
+      "description": "Enforces HTTPS connections and prevents SSL-stripping man-in-the-middle attacks."
+    },
+    "Content-Security-Policy": {
+      "status": "MISSING",
+      "severity": "High",
+      "description": "Restricts execution of unauthorized scripts, styles, and plugins, mitigating Cross-Site Scripting (XSS) and code injection."
+    },
+    "X-Frame-Options": {
+      "status": "MISSING",
+      "severity": "Medium",
+      "description": "Protects users from Clickjacking by preventing the website from being loaded in hidden <iframe> elements."
+    },
+    "X-Content-Type-Options": {
+      "status": "MISSING",
+      "severity": "Low",
+      "description": "Prevents web browsers from MIME-sniffing a response away from the declared content-type, stopping drive-by script execution."
+    },
+    "Referrer-Policy": {
+      "status": "MISSING",
+      "severity": "Low",
+      "description": "Controls how much sensitive URL referrer information is transmitted to third-party domains."
+    },
+    "Permissions-Policy": {
+      "status": "MISSING",
+      "severity": "Low",
+      "description": "Restricts browser device features (camera, microphone, geolocation) that pages or embedded iframes can activate."
+    }
+  },
+  "cookie_audit": [
+    {
+      "raw": "JSESSIONID=AE649DDB02B970B45FED887074FE1B55; Path=/; HttpOnly",
+      "HttpOnly": true,
+      "Secure": false,
+      "SameSite": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "SEC-FIND-01",
+      "title": "Cleartext HTTP Transmission (Missing HTTPS Redirection)",
+      "severity": "High",
+      "category": "Transport Security",
+      "risk_score": "7.5 (CVSS 3.1)",
+      "description": "The application serves online banking and account functions over unencrypted plain HTTP (Port 80). There is no automatic redirection to HTTPS, allowing network eavesdroppers to intercept credentials and session cookies via Man-in-the-Middle (MitM) attacks.",
+      "remediation": "Configure web server to return HTTP 301 Permanent Redirect to HTTPS for all incoming port 80 traffic, and deploy a valid TLS certificate."
+    },
+    {
+      "id": "SEC-FIND-02",
+      "title": "Missing Security Header: Strict-Transport-Security",
+      "severity": "Medium",
+      "category": "Transport Security",
+      "risk_score": "4.3 (CVSS 3.1)",
+      "description": "The response header 'Strict-Transport-Security' is not implemented. Enforces HTTPS connections and prevents SSL-stripping man-in-the-middle attacks.",
+      "remediation": "Configure the web server (e.g. Apache/Nginx/Tomcat) to include 'Strict-Transport-Security' with strict security parameters in all HTTP responses."
+    },
+    {
+      "id": "SEC-FIND-03",
+      "title": "Missing Security Header: Content-Security-Policy",
+      "severity": "High",
+      "category": "Client-Side Protection",
+      "risk_score": "6.1 (CVSS 3.1)",
+      "description": "The response header 'Content-Security-Policy' is not implemented. Restricts execution of unauthorized scripts, styles, and plugins, mitigating Cross-Site Scripting (XSS) and code injection.",
+      "remediation": "Configure the web server (e.g. Apache/Nginx/Tomcat) to include 'Content-Security-Policy' with strict security parameters in all HTTP responses."
+    },
+    {
+      "id": "SEC-FIND-04",
+      "title": "Missing Security Header: X-Frame-Options",
+      "severity": "Medium",
+      "category": "UI Redressing",
+      "risk_score": "4.3 (CVSS 3.1)",
+      "description": "The response header 'X-Frame-Options' is not implemented. Protects users from Clickjacking by preventing the website from being loaded in hidden <iframe> elements.",
+      "remediation": "Configure the web server (e.g. Apache/Nginx/Tomcat) to include 'X-Frame-Options' with strict security parameters in all HTTP responses."
+    },
+    {
+      "id": "SEC-FIND-05",
+      "title": "Missing Security Header: X-Content-Type-Options",
+      "severity": "Low",
+      "category": "MIME Sniffing",
+      "risk_score": "3.1 (CVSS 3.1)",
+      "description": "The response header 'X-Content-Type-Options' is not implemented. Prevents web browsers from MIME-sniffing a response away from the declared content-type, stopping drive-by script execution.",
+      "remediation": "Configure the web server (e.g. Apache/Nginx/Tomcat) to include 'X-Content-Type-Options' with strict security parameters in all HTTP responses."
+    },
+    {
+      "id": "SEC-FIND-06",
+      "title": "Missing Security Header: Referrer-Policy",
+      "severity": "Low",
+      "category": "Information Disclosure",
+      "risk_score": "3.1 (CVSS 3.1)",
+      "description": "The response header 'Referrer-Policy' is not implemented. Controls how much sensitive URL referrer information is transmitted to third-party domains.",
+      "remediation": "Configure the web server (e.g. Apache/Nginx/Tomcat) to include 'Referrer-Policy' with strict security parameters in all HTTP responses."
+    },
+    {
+      "id": "SEC-FIND-07",
+      "title": "Missing Security Header: Permissions-Policy",
+      "severity": "Low",
+      "category": "Feature Restriction",
+      "risk_score": "3.1 (CVSS 3.1)",
+      "description": "The response header 'Permissions-Policy' is not implemented. Restricts browser device features (camera, microphone, geolocation) that pages or embedded iframes can activate.",
+      "remediation": "Configure the web server (e.g. Apache/Nginx/Tomcat) to include 'Permissions-Policy' with strict security parameters in all HTTP responses."
+    },
+    {
+      "id": "SEC-FIND-08",
+      "title": "Server Banner Information Disclosure",
+      "severity": "Low",
+      "category": "Information Gathering",
+      "risk_score": "3.3 (CVSS 3.1)",
+      "description": "The HTTP response leaks the internal web server software ('Apache-Coyote/1.1'). Attackers use this software banner to tailor exploits targeting known vulnerabilities in this specific server engine.",
+      "remediation": "Suppress server version tokens in the web server configuration (e.g. Set ServerTokens Prod in Apache or hide server header in reverse proxy)."
+    },
+    {
+      "id": "SEC-FIND-09",
+      "title": "Insecure Session Cookie Flags (Secure, SameSite missing)",
+      "severity": "Medium",
+      "category": "Session Management",
+      "risk_score": "5.3 (CVSS 3.1)",
+      "description": "Session cookies ('JSESSIONID=AE649DDB02B970B45FED887074FE1B55') lack critical protective security flags: Secure, SameSite. Without 'Secure', cookies can leak across unencrypted connections; without 'SameSite', the site is vulnerable to Cross-Site Request Forgery (CSRF).",
+      "remediation": "Ensure the application server issues all session cookies with 'Secure; HttpOnly; SameSite=Lax' (or 'Strict') attributes."
+    }
+  ]
+}

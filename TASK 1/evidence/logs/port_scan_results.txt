@@ -1,0 +1,22 @@
+============================================================
+VULNERABILITY ASSESSMENT - NETWORK PORT SCAN EVIDENCE
+Target Host: testfire.net
+Target IP: 65.61.137.117
+Date & Time: 2026-10-21 17:58:43
+Methodology: Passive TCP Connect Probing (Read-Only)
+============================================================
+
+OPEN PORTS DETECTED:
+  [+] Port 25    TCP | Service: SMTP            | Status: OPEN
+  [+] Port 80    TCP | Service: HTTP            | Status: OPEN
+  [+] Port 110   TCP | Service: POP3            | Status: OPEN
+  [+] Port 143   TCP | Service: IMAP            | Status: OPEN
+  [+] Port 443   TCP | Service: HTTPS           | Status: OPEN
+  [+] Port 8080  TCP | Service: HTTP-Proxy/Alt  | Status: OPEN
+
+CLOSED / FILTERED PORTS:
+  [-] Port 21    TCP | Service: FTP             | Status: CLOSED/FILTERED
+  [-] Port 22    TCP | Service: SSH             | Status: CLOSED/FILTERED
+  [-] Port 53    TCP | Service: DNS             | Status: CLOSED/FILTERED
+  [-] Port 8443  TCP | Service: HTTPS-Alt       | Status: CLOSED/FILTERED
+  [-] Port 3306  TCP | Service: MySQL           | Status: CLOSED/FILTERED

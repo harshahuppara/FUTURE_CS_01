@@ -1,0 +1,11 @@
+============================================================
+VULNERABILITY ASSESSMENT - COOKIE SECURITY AUDIT EVIDENCE
+Target Host: testfire.net
+Date & Time: 2026-10-21 17:58:43
+============================================================
+
+Cookie #1: JSESSIONID=AE649DDB02B970B45FED887074FE1B55; Path=/; HttpOnly
+  - HttpOnly Flag: [PASS] Present
+  - Secure Flag:   [FAIL] Missing
+  - SameSite Flag: [FAIL] Missing
+
